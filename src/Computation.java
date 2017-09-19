@@ -129,8 +129,54 @@ public class Computation {
      * @return
      */
     private int multiplication(int x, int y) {
-        return 1;
+
+    //a and b will be used as the digits of x and y
+    //c1 is the carry while multiplying
+    //c is the carry of the final addition
+    //r is the result
+    //f is the digit of the result
+    //j is the length of either x or y depending on which is bigger
+    int a, b, f, c = 0, r = 0;
+    int j = String.valueOf(Math.max(x, y)).length();
+    int x1 = Math.max(x, y); //the biggest of the two numbers
+    int y2 = Math.min(x, y); //the smallest of the two numebrs
+    int index = 0;
+    ArrayList multiplier = new ArrayList();
+    ArrayList finalresult = new ArrayList();
+
+    // split the smaller number into its digits
+        while (y2 > 0) {
+        multiplier.add(y2 % 10);
+        y2 = y2 / 10;
     }
+    int size = multiplier.size();
+        for (int k = size; k > 0; k--) {
+        a = (int) multiplier.get(index); //the number that we are gonna use to multiply
+        r = 0;
+        int max = x1;
+        System.out.println(index + "index");
+        System.out.println("a = " + a);
+        for (double i = 0; i < j + 1; i++) {
+            b = max % 10; //
+            System.out.println("b = " + b);
+
+            f = (a * b + c) % 10;
+            c = (a * b + c) / 10;
+            r = r + ((f) * ((int) Math.pow(10, i)));
+
+            System.out.println(f + "f");
+            System.out.println(c + "c");
+            System.out.println(r + " the result");
+
+            max = max / 10;
+        }
+        finalresult.add(r);
+        index++;
+    }
+
+        return r;
+
+}
 
     /**
      * @param x
