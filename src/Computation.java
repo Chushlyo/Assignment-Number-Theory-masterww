@@ -45,7 +45,7 @@ public class Computation {
         System.out.println("s: " + y);
         switch (operation) {
             case "[add]":
-                System.out.println(addition(x, y));
+                System.out.println(addition(xstring,ystring));
                 break;
             case "[subtraction]":
                 System.out.println(subtraction(x, y));
@@ -62,30 +62,55 @@ public class Computation {
         }
     }
 
-    /**
-     * @param x
-     * @param y
-     * @return
-     */
-    private String addition(Integer x, Integer y) {
+
+//    private String addition(Integer x, Integer y) {
+//        //a and b will be used as the digits of x and y
+//        //c is the carry
+//        //r is the result
+//        //f is the digit of the result
+//        //j is the length of either x or y depending on which is bigger
+//        int a, b, f, c = 0, r = 0;
+//        int j = String.valueOf(Math.max(x, y)).length();
+//        for (double i = 0; i < j + 1; i++) {
+//            a = x % 10;
+//            b = y % 10;
+//            f = (a + b + c) % 10; //radix
+//            c = (a + b + c) / 10; //radix
+//            r = r + (f) * ((int) Math.pow(10, i));
+//            System.out.println(x + "  " + y);
+//            x = x / 10;
+//            y = y / 10;
+//        }
+//        return (Integer.toString(r, radix) + " " + r);
+//    }
+
+    private String addition(String xstring, String ystring) {
         //a and b will be used as the digits of x and y
         //c is the carry
         //r is the result
         //f is the digit of the result
         //j is the length of either x or y depending on which is bigger
         int a, b, f, c = 0, r = 0;
-        int j = String.valueOf(Math.max(x, y)).length();
+        int j = Math.max(xstring.length(), ystring.length());
+        String result = new String();
         for (double i = 0; i < j + 1; i++) {
-            a = x % 10;
-            b = y % 10;
-            f = (a + b + c) % 10; //radix
-            c = (a + b + c) / 10; //radix
-            r = r + (f) * ((int) Math.pow(10, i));
-            System.out.println(x + "  " + y);
-            x = x / 10;
-            y = y / 10;
+            if ((xstring.length()  ) > 0 ){
+                a = Integer.valueOf(xstring.substring(xstring.length() - 1));
+                xstring = xstring.substring(0,xstring.length()-1);
+            }
+            else a = 0;
+            if ((ystring.length()  ) > 0 ){
+                b = Integer.valueOf(ystring.substring(ystring.length() - 1 ));
+                ystring = ystring.substring(0,ystring.length()-1);
+            }
+            else b = 0;
+            f = (a + b + c) % radix; //radix
+            c = (a + b + c) / radix; //radix
+            r = (f) ;
+            result = (Integer.toString(r)+result);
+            System.out.println(a + "  " + b+ " res" + result + "r " + r);
         }
-        return (Integer.toString(r, radix) + " " + r);
+        return (result);
     }
 
     /**
