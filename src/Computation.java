@@ -101,15 +101,18 @@ public class Computation {
         //j is the length of either x or y depending on which is bigger
         int a, b, f, c = 0, r = 0;
         int j = String.valueOf(Math.max(x, y)).length();
-        int x1;
-        int y2;
-        x1 = Math.max(x, y);
-        y2 = Math.min(x, y);
+        int x1 = Math.max(x, y);
+        int y2 = Math.min(x, y);
         for (double i = 0; i < j + 1; i++) {
-
             a = x1 % 10;
             b = y2 % 10;
-            f = (a - b - c) % 10;
+            if (b>a){
+                f = (a * ((int) Math.pow(10, 1)) - b ) % 10;
+                x1=x1-10;
+            } else{
+                f=a-b;
+            }
+
             r = r + (10 - (f) * ((int) Math.pow(10, i)));
             System.out.println(x1 + "  " + y2);
             x1 = x1 / 10;
@@ -118,7 +121,9 @@ public class Computation {
             else c = 0;
 
         }
-        if (y > x) r = -r;
+        if (y > x) {
+            r = -r;
+        }
         r = x - y;
         return r;
     }
