@@ -72,25 +72,15 @@ public class IOHandler {
         return number;
     }
 
-    void output() {
-        //bufferedreader that takes the data from console
+    void output(String result) {
         FileWriter writer = null;
         BufferedWriter bufferwriter = null;
-        String result = "";
-
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
             writer = new FileWriter(path, true);
             bufferwriter = new BufferedWriter(writer);
-
-//           result = reader.readLine();
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                result += line + "~";
-            }
-            //bufferwriter.write("\n[result] " + result);
-            bufferwriter.write("\n test");
-            // System.out.println("Done");
+            System.out.println("[result] " + result);
+            bufferwriter.write("\n [result] " + result);
         } catch (IOException exception) {
             exception.printStackTrace();
         } finally {
@@ -107,16 +97,15 @@ public class IOHandler {
 
         }
 
-
     }
 
     public static void main(String[] args) throws IOException {
         IOHandler handler = new IOHandler();
-        handler.getRadix();
+        // handler.getRadix();
 //        System.out.println("operation is" + handler.getOperation());
 //        System.out.println("x is" + handler.getFirstNumber());
 //        System.out.println("y is" + handler.getSecondNumber());
-        handler.output();
+        handler.output("10");
 
 
     }
