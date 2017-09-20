@@ -1,6 +1,6 @@
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -9,6 +9,7 @@ public class IOHandler {
     String path = "C:/Users/Delyana/Desktop/example.txt";
     ReadFile read = new ReadFile(path);
     ArrayList<String> lines = new ArrayList<>();
+    //String OutputPath="C:/Users/Delyana/Desktop/output.txt";
 
     public IOHandler() {
         try {
@@ -22,8 +23,8 @@ public class IOHandler {
         int radix = 0;
         for (String string : lines) {
             //print the lines form the file
-            System.out.println(string);
-            if (string.contains("[radix]")) {
+            //System.out.println(string);
+            if (string.contains("[radix]") && !string.contains("#")) {
                 System.out.println(string.substring(8));
             }
         }
@@ -71,12 +72,52 @@ public class IOHandler {
         return number;
     }
 
+    void output() {
+        //bufferedreader that takes the data from console
+        FileWriter writer = null;
+        BufferedWriter bufferwriter = null;
+        String result = "";
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            writer = new FileWriter(path, true);
+            bufferwriter = new BufferedWriter(writer);
+
+//           result = reader.readLine();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                result += line + "~";
+            }
+            //bufferwriter.write("\n[result] " + result);
+            bufferwriter.write("\n test");
+            // System.out.println("Done");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } finally {
+            try {
+                if (bufferwriter != null) {
+                    bufferwriter.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
+
     public static void main(String[] args) throws IOException {
         IOHandler handler = new IOHandler();
         handler.getRadix();
-        System.out.println("operation is" + handler.getOperation());
-        System.out.println("x is" + handler.getFirstNumber());
-        System.out.println("y is" + handler.getSecondNumber());
+//        System.out.println("operation is" + handler.getOperation());
+//        System.out.println("x is" + handler.getFirstNumber());
+//        System.out.println("y is" + handler.getSecondNumber());
+        handler.output();
+
 
     }
 }

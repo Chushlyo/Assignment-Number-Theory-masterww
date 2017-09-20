@@ -45,7 +45,7 @@ public class Computation {
         System.out.println("s: " + y);
         switch (operation) {
             case "[add]":
-                System.out.println(addition(xstring,ystring));
+                System.out.println(addition(x, y));
                 break;
             case "[subtraction]":
                 System.out.println(subtraction(x, y));
@@ -62,55 +62,30 @@ public class Computation {
         }
     }
 
-
-//    private String addition(Integer x, Integer y) {
-//        //a and b will be used as the digits of x and y
-//        //c is the carry
-//        //r is the result
-//        //f is the digit of the result
-//        //j is the length of either x or y depending on which is bigger
-//        int a, b, f, c = 0, r = 0;
-//        int j = String.valueOf(Math.max(x, y)).length();
-//        for (double i = 0; i < j + 1; i++) {
-//            a = x % 10;
-//            b = y % 10;
-//            f = (a + b + c) % 10; //radix
-//            c = (a + b + c) / 10; //radix
-//            r = r + (f) * ((int) Math.pow(10, i));
-//            System.out.println(x + "  " + y);
-//            x = x / 10;
-//            y = y / 10;
-//        }
-//        return (Integer.toString(r, radix) + " " + r);
-//    }
-
-    private String addition(String xstring, String ystring) {
+    /**
+     * @param x
+     * @param y
+     * @return
+     */
+    private String addition(Integer x, Integer y) {
         //a and b will be used as the digits of x and y
         //c is the carry
         //r is the result
         //f is the digit of the result
         //j is the length of either x or y depending on which is bigger
         int a, b, f, c = 0, r = 0;
-        int j = Math.max(xstring.length(), ystring.length());
-        String result = new String();
+        int j = String.valueOf(Math.max(x, y)).length();
         for (double i = 0; i < j + 1; i++) {
-            if ((xstring.length()  ) > 0 ){
-                a = Integer.valueOf(xstring.substring(xstring.length() - 1));
-                xstring = xstring.substring(0,xstring.length()-1);
-            }
-            else a = 0;
-            if ((ystring.length()  ) > 0 ){
-                b = Integer.valueOf(ystring.substring(ystring.length() - 1 ));
-                ystring = ystring.substring(0,ystring.length()-1);
-            }
-            else b = 0;
-            f = (a + b + c) % radix; //radix
-            c = (a + b + c) / radix; //radix
-            r = (f) ;
-            result = (Integer.toString(r)+result);
-            System.out.println(a + "  " + b+ " res" + result + "r " + r);
+            a = x % 10;
+            b = y % 10;
+            f = (a + b + c) % 10; //radix
+            c = (a + b + c) / 10; //radix
+            r = r + (f) * ((int) Math.pow(10, i));
+            System.out.println(x + "  " + y);
+            x = x / 10;
+            y = y / 10;
         }
-        return (result);
+        return (Integer.toString(r, radix) + " " + r);
     }
 
     /**
@@ -155,53 +130,53 @@ public class Computation {
      */
     private int multiplication(int x, int y) {
 
-    //a and b will be used as the digits of x and y
-    //c1 is the carry while multiplying
-    //c is the carry of the final addition
-    //r is the result
-    //f is the digit of the result
-    //j is the length of either x or y depending on which is bigger
-    int a, b, f, c = 0, r = 0;
-    int j = String.valueOf(Math.max(x, y)).length();
-    int x1 = Math.max(x, y); //the biggest of the two numbers
-    int y2 = Math.min(x, y); //the smallest of the two numebrs
-    int index = 0;
-    ArrayList multiplier = new ArrayList();
-    ArrayList finalresult = new ArrayList();
+        //a and b will be used as the digits of x and y
+        //c1 is the carry while multiplying
+        //c is the carry of the final addition
+        //r is the result
+        //f is the digit of the result
+        //j is the length of either x or y depending on which is bigger
+        int a, b, f, c = 0, r = 0;
+        int j = String.valueOf(Math.max(x, y)).length();
+        int x1 = Math.max(x, y); //the biggest of the two numbers
+        int y2 = Math.min(x, y); //the smallest of the two numebrs
+        int index = 0;
+        ArrayList multiplier = new ArrayList();
+        ArrayList finalresult = new ArrayList();
 
-    // split the smaller number into its digits
+        // split the smaller number into its digits
         while (y2 > 0) {
-        multiplier.add(y2 % 10);
-        y2 = y2 / 10;
-    }
-    int size = multiplier.size();
-        for (int k = size; k > 0; k--) {
-        a = (int) multiplier.get(index); //the number that we are gonna use to multiply
-        r = 0;
-        int max = x1;
-        System.out.println(index + "index");
-        System.out.println("a = " + a);
-        for (double i = 0; i < j + 1; i++) {
-            b = max % 10; //
-            System.out.println("b = " + b);
-
-            f = (a * b + c) % 10;
-            c = (a * b + c) / 10;
-            r = r + ((f) * ((int) Math.pow(10, i)));
-
-            System.out.println(f + "f");
-            System.out.println(c + "c");
-            System.out.println(r + " the result");
-
-            max = max / 10;
+            multiplier.add(y2 % 10);
+            y2 = y2 / 10;
         }
-        finalresult.add(r);
-        index++;
-    }
+        int size = multiplier.size();
+        for (int k = size; k > 0; k--) {
+            a = (int) multiplier.get(index); //the number that we are gonna use to multiply
+            r = 0;
+            int max = x1;
+            System.out.println(index + "index");
+            System.out.println("a = " + a);
+            for (double i = 0; i < j + 1; i++) {
+                b = max % 10; //
+                System.out.println("b = " + b);
+
+                f = (a * b + c) % 10;
+                c = (a * b + c) / 10;
+                r = r + ((f) * ((int) Math.pow(10, i)));
+
+                System.out.println(f + "f");
+                System.out.println(c + "c");
+                System.out.println(r + " the result");
+
+                max = max / 10;
+            }
+            finalresult.add(r);
+            index++;
+        }
 
         return r;
 
-}
+    }
 
     /**
      * @param x
