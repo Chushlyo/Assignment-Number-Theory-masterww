@@ -9,12 +9,13 @@ public class IOHandler {
     String path = "C:/Users/Delyana/Desktop/example.txt";
     ReadFile read = new ReadFile(path);
     ArrayList<String> lines = new ArrayList<>();
-    //String OutputPath="C:/Users/Delyana/Desktop/output.txt";
 
     public IOHandler() {
         try {
+            //Open the file
             this.lines = read.Open();
         } catch (IOException exception) {
+            //catch exception of something is wrong with opening the file
             System.out.println(exception.getMessage());
         }
     }
@@ -22,12 +23,14 @@ public class IOHandler {
     int getRadix() {
         int radix = 0;
         for (String string : lines) {
-            //print the lines form the file
-            //System.out.println(string);
+            //loop through all lines of the file
             if (string.contains("[radix]") && !string.contains("#")) {
+                // if there is [radix] word then the following number is the radix
                    if(string.substring(8,9).equals("1")) {
+                       //if the radix contains two digits
                        radix = Integer.parseInt(string.substring(8,10));
                    } else{
+                       //if the radix contains one digit
                        radix=Integer.parseInt(string.substring(8,9));
                    }
 
@@ -44,6 +47,7 @@ public class IOHandler {
             //print the lines form the file
             String string = iterator.next();
             if (string.contains("[radix]") && !string.contains("#")) {
+                //whenever the line with the radix is reached, go to the next one of the operation
                 string = iterator.next();
                 operation = string;
                 break;
@@ -56,8 +60,9 @@ public class IOHandler {
     String getFirstNumber() {
         String number = "";
         for (String string : lines) {
-            //print the lines form the file
+            //loop through all lines of the file
             if (string.contains("[x]")) {
+                //the first number is after [x] word
                 number = string.substring(4);
             }
         }
@@ -68,9 +73,9 @@ public class IOHandler {
     String getSecondNumber() {
         String number = "";
         for (String string : lines) {
-            //print the lines form the file
-            //System.out.println(string);
+            //loop through all lines of the file
             if (string.contains("[y]")) {
+                //the second number is after [y] word
                 number = string.substring(4);
             }
         }
@@ -79,18 +84,21 @@ public class IOHandler {
     }
 
     void output(String result) {
+        //filewriter to open the file for writing
         FileWriter writer = null;
         BufferedWriter bufferwriter = null;
         try {
             writer = new FileWriter(path, true);
             bufferwriter = new BufferedWriter(writer);
             System.out.println("[result] " + result);
+            //write the result from computation into new line
             bufferwriter.write("\n [result] " + result);
 
         } catch (IOException exception) {
             exception.printStackTrace();
         } finally {
             try {
+                //close the buffers
                 if (bufferwriter != null) {
                     bufferwriter.close();
                 }
@@ -108,10 +116,11 @@ public class IOHandler {
         FileWriter writer = null;
         BufferedWriter bufferwriter = null;
         try {
-
+            //filewriter to open the file for writing
             writer = new FileWriter(path, true);
             bufferwriter = new BufferedWriter(writer);
             if (steps != 0) {
+                //write the result from computing the steps into new line
                 System.out.println("[individual steps] " + steps);
                 bufferwriter.write("\n [individual steps] " + steps);
             }
@@ -119,6 +128,7 @@ public class IOHandler {
             exception.printStackTrace();
         } finally {
             try {
+                //close the buffers
                 if (bufferwriter != null) {
                     bufferwriter.close();
                 }

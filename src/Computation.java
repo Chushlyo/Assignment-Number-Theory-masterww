@@ -1,11 +1,14 @@
 
 public class Computation {
+    //if the program needs to convert numbers, that is if they contain letters
     private boolean convert;
     private Integer radix;
     private String operation;
     private String xstring;
     private String ystring;
+    //input-output handler
     private IOHandler handler = new IOHandler();
+    //integer to count the individual steps
     private Integer singleSteps;
 
     private boolean isxneg = (false), isyneg = (false), isxmodlarger = (false);
@@ -21,6 +24,7 @@ public class Computation {
             }
         } catch (NumberException exception) {
             System.out.println("Radix must be between 2 and 16.");
+            //exit normally
             System.exit(0);
         }
 
@@ -36,11 +40,12 @@ public class Computation {
         }
         this.xstring = handler.getFirstNumber();
         this.ystring = handler.getSecondNumber();
-        //change change so it works with big numbers
 
+
+        // check if the numbers are negative, in order to call the proper operations lates
         if (xstring.contains("-")) isxneg = (true);
         if (ystring.contains("-")) isyneg = (true);
-
+        //check if the modulo is larger
         if (!isxneg && !isyneg) {
             if (xstring.length() > ystring.length()) isxmodlarger = (true);
             if (xstring.length() == ystring.length() && xstring.charAt(0) > ystring.charAt(0)) isxmodlarger = (true);
@@ -63,36 +68,34 @@ public class Computation {
 
     }
 
+    /*
+    Depending on the operation selected, a different case is chosen, inside of each case the operation is called. At the end of the method the handler
+    is called in order to write the results inside the text file.
+     */
     private void compute() {
         String result = "";
         switch (operation) {
             case "[addition]":
                 result = addition(xstring, ystring);
-
                 handler.output(result);
                 break;
             case "[subtraction]":
                 result = subtraction(xstring, ystring);
-
                 handler.output(result);
                 break;
             case "[multiplication]":
                 if (!isxneg && !isyneg) {
                     result = multiplication(xstring, ystring);
-
                 }
                 if (!isxneg && isyneg) {
                     result = "-" + multiplication(xstring, ystring.substring(1, ystring.length()));
-
                 }
                 if (isxneg && !isyneg) {
                     result = "-" + multiplication(xstring.substring(xstring.length()), ystring);
-
                 }
                 if (isxneg && isyneg) {
                     System.out.println(multiplication(xstring.substring(1, xstring.length()), ystring.substring(1, ystring.length())));
                     result = multiplication(xstring.substring(1, xstring.length()), ystring.substring(1, ystring.length()));
-
                 }
                 handler.outputSteps(singleSteps);
                 handler.output(result);
@@ -101,19 +104,15 @@ public class Computation {
                 result = "";
                 if (!isxneg && !isyneg) {
                     result = karatsuba(xstring, ystring);
-
                 }
                 if (!isxneg && isyneg) {
                     result = "-" + karatsuba(xstring, ystring.substring(1, ystring.length()));
-
                 }
                 if (isxneg && !isyneg) {
                     result = "-" + karatsuba(xstring.substring(xstring.length()), ystring);
-
                 }
                 if (isxneg && isyneg) {
                     result = karatsuba(xstring.substring(1, xstring.length()), ystring.substring(1, ystring.length()));
-
                 }
                 handler.outputSteps(singleSteps);
                 handler.output(result);
@@ -123,6 +122,9 @@ public class Computation {
         }
     }
 
+    /*
+    Simple additionn for two positive numbers.
+     */
     private String simpleAddition(String xstring, String ystring) {
         //a and b will be used as the digits of x and y
         //c is the carry
@@ -156,13 +158,15 @@ public class Computation {
                 r = (f);
                 result = (Integer.toString(r) + result);
             }
-            //System.out.println(a + "  " + b + " res" + result + "r " + r);
         }
-        //while (result.charAt(0)== 0) result= result.substring(1,result.length());
+
         if (c != 0) return c + result;
         return (result);
     }
 
+    /*
+    Depending on the signs of the two numbers, different simple versions of addition and subtraction are called.
+     */
     private String addition(String xstring, String ystring) {
 
         if (!isxneg && !isyneg) {
@@ -188,7 +192,9 @@ public class Computation {
         return "Something went wrong";
     }
 
-
+    /*
+    Simple version of subtraction of two string numbers.
+     */
     private String simplesubtraction(String xstring, String ystring) {
         //a and b will be used as the digits of x and y
         //c is the carry
@@ -220,10 +226,9 @@ public class Computation {
             } else {
                 if (i < j - 1) {
                     f = (radix - (b - a + c)) % radix;
-                    //c=1;
+
                 } else f = (a - b - c) % radix;
             }
-            //f = (a - b - c) % 10;
 
             if (convert) {
                 System.out.println("f is " + f + "a is" + a + " b is:" + b);
@@ -233,23 +238,22 @@ public class Computation {
             } else {
                 r = (Integer.toString(f) + r);
             }
-            //System.out.println(f + "  " + a + b);
+
             if ((b + c) > a) c = 1;
             else c = 0;
 
         }
-//        if (y > x) r = -r;
-//        r = x - y;
-        //if (c==1) return "-"+r;
-        // System.out.println(r.charAt(0));
         if (r.substring(0, 1).equals("0")) {
             r = r.substring(1, r.length());
-            //System.out.println(r.substring(2,r.length()));
+
         }
 
         return r;
     }
 
+    /*
+    Depending on the signs of the two numbers, different simple versions of addition and subtraction are called.
+     */
     private String subtraction(String xstring, String ystring) {
 
         if (!isxneg && !isyneg) {
@@ -273,6 +277,9 @@ public class Computation {
         return "Something went wrong";
     }
 
+    /*
+    Simple multiplication method.
+     */
     private String multiplication(String xstring, String ystring) {
         int power, power2;
         String r, result, a, b, r2, a1, b1;
@@ -287,23 +294,18 @@ public class Computation {
                 power2 = p;
                 b1 = ystring2.substring(ystring2.length() - 1, ystring2.length());
                 b = hexdecimal(b1);
-
                 for (int t = 0; t < power2; t++) {
                     b = b + "0";
                 }
                 r2 = new String();
-
                 ystring2 = ystring2.substring(0, ystring2.length() - 1);
                 for (int i2 = 0; i2 < Integer.valueOf(a); i2++) {
 
                     r2 = simpleAddition(b, r2);
                 }
-
-
                 for (int t = 0; t < power; t++) {
                     r2 = r2 + "0";
                 }
-
                 r = simpleAddition(r, r2);
             }
             ystring2 = ystring;
@@ -346,6 +348,9 @@ public class Computation {
 
     }
 
+    /*
+    Method to convert from hexadecimal to decimal.
+     */
     private String hexdecimal(String num) {
         switch (num) {
             case "a":
@@ -372,6 +377,9 @@ public class Computation {
         return num;
     }
 
+    /*
+Method to convert from decimal to hexadecimal.
+ */
     private String decimalhex(String num) {
         switch (num) {
             case "10":
