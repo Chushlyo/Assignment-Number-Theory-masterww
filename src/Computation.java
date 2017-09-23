@@ -1,20 +1,16 @@
-import java.util.Scanner;
-import java.util.*;
 
 public class Computation {
     private Integer radix;
     private String operation;
     private String xstring;
     private String ystring;
-    private String change;
+
     private boolean isxneg = (false), isyneg = (false), isxmodlarger = (false);
     private IOHandler handler = new IOHandler();
     private boolean convert;
 
     private Computation() {
         this.convert = false;
-        Scanner scanner = new Scanner(System.in);
-        // this.radix = scanner.nextInt();
         this.radix = handler.getRadix();
         System.out.println(this.radix);
         if (this.radix > 10) {
@@ -30,7 +26,6 @@ public class Computation {
         }
         this.operation = handler.getOperation();
         System.out.println(this.operation);
-        // this.operation = scanner.next();
         try {
             if (!(operation.equals("[add]")) && !(operation.equals("[subtraction]")) &&
                     !(operation.equals("[multiplication]")) && !operation.equals("[karatsuba]") && !(operation.equals("test"))) {
@@ -42,17 +37,8 @@ public class Computation {
         }
         this.xstring = handler.getFirstNumber();
         System.out.println("ss" + this.xstring);
-        // this.xstring = scanner.next();
         this.ystring = handler.getSecondNumber();
         System.out.println("ss" + this.ystring);
-        //this.ystring = scanner.next();
-        //change change so it works with big numbers
-//        if (convert) {
-//            this.xstring = String.valueOf(hex2decimal(xstring, this.radix));
-//            System.out.println("c" + this.xstring);
-//            this.ystring = String.valueOf(hex2decimal(ystring, this.radix));
-//            System.out.println("c" + this.ystring);
-//        }
         if (xstring.contains("-")) isxneg = (true);
         if (ystring.contains("-")) isyneg = (true);
 
@@ -80,13 +66,6 @@ public class Computation {
 
 
     private void compute() {
-        // Integer x;
-        // int y;
-//    BigInteger x = new BigInteger(xstring,radix);
-//    BigInteger y = new BigInteger(ystring,radix);
-        //    int a, b, c = 0, r = 0, f;
-        //System.out.println("f: " + x);
-        //System.out.println("s: " + y);
         String result = "";
         switch (operation) {
             case "[add]":
@@ -189,58 +168,6 @@ public class Computation {
         return (result);
     }
 
-    private String hexdecimal(String num) {
-        switch (num) {
-            case "A":
-                num = "10";
-                break;
-            case "B":
-                num = "11";
-                break;
-            case "C":
-                num = "12";
-                break;
-            case "D":
-                num = "13";
-                break;
-            case "E":
-                num = "14";
-                break;
-            case "F":
-                num = "15";
-                break;
-            default:
-                break;
-        }
-        return num;
-    }
-
-    private String decimalhex(String num) {
-        switch (num) {
-            case "10":
-                num = "a";
-                break;
-            case "11":
-                num = "b";
-                break;
-            case "12":
-                num = "c";
-                break;
-            case "13":
-                num = "d";
-                break;
-            case "14":
-                num = "e";
-                break;
-            case "15":
-                num = "f";
-                break;
-            default:
-                break;
-        }
-
-        return num;
-    }
 
     private String addition(String xstring, String ystring) {
 
@@ -267,64 +194,7 @@ public class Computation {
         return "Something went wrong";
     }
 
-    //        if (ystring.contains("-") && !xstring.contains("-")) {
-//            return subtraction(xstring, ystring.substring(1,ystring.length()));
-//
-//
-//        }
-//        else if (ystring.contains("-") && xstring.contains("-")){
-//
-//            xstring = xstring.substring(1,xstring.length());
-//            ystring = ystring.substring(1,ystring.length());
-//            int a, b, f, c = 0, r = 0;
-//            int j = Math.max(xstring.length(), ystring.length());
-//            String result = new String();
-//            for (double i = 0; i < j + 1; i++) {
-//                if ((xstring.length()) > 0) {
-//                    a = Integer.valueOf(xstring.substring(xstring.length() - 1));
-//                    xstring = xstring.substring(0, xstring.length() - 1);
-//                } else a = 0;
-//                if ((ystring.length()) > 0) {
-//                    b = Integer.valueOf(ystring.substring(ystring.length() - 1));
-//                    ystring = ystring.substring(0, ystring.length() - 1);
-//                } else b = 0;
-//                f = (a + b + c) % radix; //radix
-//                c = (a + b + c) / radix; //radix
-//                r = (f);
-//                result = (Integer.toString(r) + result);
-//                System.out.println(a + "  " + b + " res" + result + "r " + r);
-//            }
-//            return ("-" + result);
-//
-//        }
-//        {
-//            //a and b will be used as the digits of x and y
-//            //c is the carry
-//            //r is the result
-//            //f is the digit of the result
-//            //j is the length of either x or y depending on which is bigger
-//            int a, b, f, c = 0, r = 0;
-//            int j = Math.max(xstring.length(), ystring.length());
-//            String result = new String();
-//            for (double i = 0; i < j + 1; i++) {
-//                if ((xstring.length()) > 0) {
-//                    a = Integer.valueOf(xstring.substring(xstring.length() - 1));
-//                    xstring = xstring.substring(0, xstring.length() - 1);
-//                } else a = 0;
-//                if ((ystring.length()) > 0) {
-//                    b = Integer.valueOf(ystring.substring(ystring.length() - 1));
-//                    ystring = ystring.substring(0, ystring.length() - 1);
-//                } else b = 0;
-//                f = (a + b + c) % radix; //radix
-//                c = (a + b + c) / radix; //radix
-//                r = (f);
-//                result = (Integer.toString(r) + result);
-//                System.out.println(a + "  " + b + " res" + result + "r " + r);
-//            }
-//            return (result);
-//
-//        }
-//    }
+
     private String simplesubtraction(String xstring, String ystring) {
         //a and b will be used as the digits of x and y
         //c is the carry
@@ -332,38 +202,48 @@ public class Computation {
         //f is the digit of the result
         //j is the length of either x or y depending on which is bigger
         int a, b, f, c = 0;
-        String r = new String();
+        String r="",a1,b1;
         int j = Math.max(xstring.length(), ystring.length());
+        xstring = xstring.toUpperCase();
+        ystring = ystring.toUpperCase();
 
         for (double i = 0; i < j; i++) {
             if ((xstring.length()) > 0) {
-                a = Integer.valueOf(xstring.substring(xstring.length() - 1));
+                a1 = (xstring.substring(xstring.length() - 1));
+                System.out.println("num aa1 " + a1);
+                a = Integer.valueOf(hexdecimal(a1));
+                System.out.println("numa " + a);
                 xstring = xstring.substring(0, xstring.length() - 1);
             } else a = 0;
             if ((ystring.length()) > 0) {
-                b = Integer.valueOf(ystring.substring(ystring.length() - 1));
+                b1 = (ystring.substring(ystring.length() - 1));
+                System.out.println("num aa1 " + b1);
+                b = Integer.valueOf(hexdecimal(b1));
+                System.out.println("numb " + b);
                 ystring = ystring.substring(0, ystring.length() - 1);
             } else b = 0;
             if (a > b) {
                 f = (a - b - c) % radix;
-
-
             } else {
                 if (i < j - 1) {
                     f = (10 - (b - a - c)) % radix;
+                    System.out.println("inside f " + f);
                 } else f = (a - b - c) % radix;
             }
-            //f = (a - b - c) % 10;
+            if (convert) {
+                System.out.println("f is " + f);
+                System.out.println(decimalhex(String.valueOf(f)));
+                String num = (decimalhex(String.valueOf(f)));
+                r = num + r;
+            } else {
+                r = (Integer.toString(f) + r);
+            }
 
-            r = (Integer.toString(f) + r);
-            System.out.println(f + "  " + a + b);
+            System.out.println("current f " +f + "  " + a + b);
             if (b > a) c = 1;
             else c = 0;
 
         }
-//        if (y > x) r = -r;
-//        r = x - y;
-        //if (c==1) return "-"+r;
         if (r.substring(0, 1).equals("0")) {
             return r.substring(1, r.length());
         }
@@ -392,68 +272,6 @@ public class Computation {
         }
         return "Something went wrong";
     }
-//        if (ystring.contains("-") && !xstring.contains("-")) {
-//            return addition(xstring, ystring.substring(1,ystring.length()));
-//
-//        }
-//        else if (ystring.contains("-") && xstring.contains("-")) {
-//            return "-" + subtraction(ystring.substring(1,ystring.length()),xstring.substring(1,xstring.length()));
-//
-//        }
-//        //a and b will be used as the digits of x and y
-//        //c is the carry
-//        //r is the result
-//        //f is the digit of the result
-//        //j is the length of either x or y depending on which is bigger
-//        int a, b, f, c = 0;
-//        if (ischange){
-//            change = xstring;
-//            xstring = ystring;
-//            ystring = change;
-//
-//        }
-//        if ((Integer.valueOf(ystring))> (Integer.valueOf(xstring)){
-//            return "-"+(subtraction(ystring))
-//        }
-//        String r = new String();
-//        int j = Math.max(xstring.length(),ystring.length());
-//
-//        for (double i = 0; i < j ; i++) {
-//            if ((xstring.length()) > 0) {
-//                a = Integer.valueOf(xstring.substring(xstring.length() - 1));
-//                xstring = xstring.substring(0, xstring.length() - 1);
-//            } else a = 0;
-//            if ((ystring.length()) > 0) {
-//                b = Integer.valueOf(ystring.substring(ystring.length() - 1));
-//                ystring = ystring.substring(0, ystring.length() - 1);
-//            } else b = 0;
-//            if(a>b){
-//                f = (a - b - c) % 10;
-//
-//
-//            }
-//            else {
-//                if (i < j - 1 && c!=0) {
-//                    f = (10 - (b - a - c)) % 10;
-//
-//                }
-//                f = (a - b - c) % 10;
-//                //2 - 25 opravi.
-//            }
-//            //f = (a - b - c) % 10;
-//
-//            r = (Integer.toString(f)+ r);
-//            System.out.println(f + "  " + a + b);
-//            if (b > a) c = 1;
-//            else c = 0;
-//
-//        }
-////        if (y > x) r = -r;
-////        r = x - y;
-//        //if (c==1) return "-"+r;
-//
-//        return r;
-//    }
 
     /**
      * @param x
@@ -462,11 +280,13 @@ public class Computation {
      */
     private String multiplication(String x, String y) {
         int power, power2;
-        String r, result, a, b, r2;
+        String r, a, b, r2;
         r = new String();
         String ystring2 = ystring, xstring2 = xstring;
+        xstring = xstring.toUpperCase();
+        ystring = ystring.toUpperCase();
+
         int j = Math.max(xstring.length(), ystring.length());
-        //if(xstring.length()>ystring.length()){
         for (int i = 0; i < xstring.length(); i++) {
             power = i;
             a = xstring2.substring(xstring2.length() - 1);
@@ -493,7 +313,7 @@ public class Computation {
             }
             ystring2 = ystring;
         }
-        //}
+
         return r;
     }
 
@@ -548,6 +368,59 @@ public class Computation {
         int p3 = karatsuba(x1 + x2, y1 + y2) - p1 - p2;
         return (p1 * (int) Math.pow(10, length) + p3 * (int) Math.pow(10, length / 2) + p2);
     }
+    private String hexdecimal(String num) {
+        switch (num) {
+            case "A":
+                num = "10";
+                break;
+            case "B":
+                num = "11";
+                break;
+            case "C":
+                num = "12";
+                break;
+            case "D":
+                num = "13";
+                break;
+            case "E":
+                num = "14";
+                break;
+            case "F":
+                num = "15";
+                break;
+            default:
+                break;
+        }
+        return num;
+    }
+
+    private String decimalhex(String num) {
+        switch (num) {
+            case "10":
+                num = "a";
+                break;
+            case "11":
+                num = "b";
+                break;
+            case "12":
+                num = "c";
+                break;
+            case "13":
+                num = "d";
+                break;
+            case "14":
+                num = "e";
+                break;
+            case "15":
+                num = "f";
+                break;
+            default:
+                break;
+        }
+
+        return num;
+    }
+
 
     public static void main(String[] args) {
         Computation program = new Computation();
