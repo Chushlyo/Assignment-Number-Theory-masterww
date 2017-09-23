@@ -25,11 +25,15 @@ public class IOHandler {
             //print the lines form the file
             //System.out.println(string);
             if (string.contains("[radix]") && !string.contains("#")) {
-                System.out.println(string.substring(8));
-                radix=Integer.parseInt(string.substring(8,10));
+                   if(string.substring(8,9).equals("1")) {
+                       radix = Integer.parseInt(string.substring(8,10));
+                   } else{
+                       radix=Integer.parseInt(string.substring(8,9));
+                   }
+
             }
         }
-
+        System.out.println("[radix] " +radix);
         return radix;
     }
 
@@ -45,7 +49,7 @@ public class IOHandler {
                 break;
             }
         }
-
+        System.out.println("[operation]  " +operation);
         return operation;
     }
 
@@ -53,11 +57,11 @@ public class IOHandler {
         String number = "";
         for (String string : lines) {
             //print the lines form the file
-            //System.out.println(string);
             if (string.contains("[x]")) {
                 number = string.substring(4);
             }
         }
+        System.out.println("[x] " +number);
         return number;
     }
 
@@ -70,6 +74,7 @@ public class IOHandler {
                 number = string.substring(4);
             }
         }
+        System.out.println("[y] " +number);
         return number;
     }
 
@@ -77,11 +82,39 @@ public class IOHandler {
         FileWriter writer = null;
         BufferedWriter bufferwriter = null;
         try {
-
             writer = new FileWriter(path, true);
             bufferwriter = new BufferedWriter(writer);
             System.out.println("[result] " + result);
             bufferwriter.write("\n [result] " + result);
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } finally {
+            try {
+                if (bufferwriter != null) {
+                    bufferwriter.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    void outputSteps(Integer steps) {
+        FileWriter writer = null;
+        BufferedWriter bufferwriter = null;
+        try {
+
+            writer = new FileWriter(path, true);
+            bufferwriter = new BufferedWriter(writer);
+            if (steps != 0) {
+                System.out.println("[individual steps] " + steps);
+                bufferwriter.write("\n [individual steps] " + steps);
+            }
         } catch (IOException exception) {
             exception.printStackTrace();
         } finally {
@@ -98,16 +131,13 @@ public class IOHandler {
 
         }
 
+
     }
+
+
 
     public static void main(String[] args) throws IOException {
         IOHandler handler = new IOHandler();
-        // handler.getRadix();
-//        System.out.println("operation is" + handler.getOperation());
-//        System.out.println("x is" + handler.getFirstNumber());
-//        System.out.println("y is" + handler.getSecondNumber());
-        handler.output("10");
-
 
     }
 }
