@@ -26,6 +26,7 @@ public class IOHandler {
             //System.out.println(string);
             if (string.contains("[radix]") && !string.contains("#")) {
                 System.out.println(string.substring(8));
+                radix=Integer.parseInt(string.substring(8,10));
             }
         }
 
@@ -52,7 +53,7 @@ public class IOHandler {
         String number = "";
         for (String string : lines) {
             //print the lines form the file
-            System.out.println(string);
+            //System.out.println(string);
             if (string.contains("[x]")) {
                 number = string.substring(4);
             }
@@ -64,7 +65,7 @@ public class IOHandler {
         String number = "";
         for (String string : lines) {
             //print the lines form the file
-            System.out.println(string);
+            //System.out.println(string);
             if (string.contains("[y]")) {
                 number = string.substring(4);
             }
