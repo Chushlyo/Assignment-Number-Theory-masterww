@@ -284,13 +284,11 @@ public class Computation {
             power = i;
             a1 = xstring2.substring(xstring2.length() - 1, xstring2.length());
             a = hexdecimal(a1);
-            System.out.println("a" + a);
             xstring2 = xstring2.substring(0, xstring2.length() - 1);
             for (int p = 0; p < ystring.length(); p++) {
                 power2 = p;
                 b1 = ystring2.substring(ystring2.length() - 1, ystring2.length());
                 b = hexdecimal(b1);
-                System.out.println("b " + b);
                 for (int t = 0; t < power2; t++) {
                     b = b + "0";
                 }
@@ -298,6 +296,7 @@ public class Computation {
                 ystring2 = ystring2.substring(0, ystring2.length() - 1);
 
                 for (int i2 = 0; i2 < Integer.valueOf(a); i2++) {
+                    b=decimalhex(b);
                     if (!b.equals("0") || !r2.equals("0"))
                         r2 = simpleAddition(b, r2);
                 }
