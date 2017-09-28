@@ -30,12 +30,12 @@ public class Computation {
 
         this.operation = handler.getOperation();
         try {
-            if (!(operation.equals("[addition]")) && !(operation.equals("[subtraction]")) &&
-                    !(operation.equals("[multiplication]")) && !operation.equals("[karatsuba]") && !(operation.equals("test"))) {
+            if (!(operation.equals("[add]")) && !(operation.equals("[subtract]")) &&
+                    !(operation.equals("[multiply]")) && !operation.equals("[karatsuba]")) {
                 throw new NumberException("");
             }
         } catch (NumberException exception) {
-            System.out.println("Operation must be [add],[subtraction],[multiplication] or [karatsuba].");
+            System.out.println("Operation must be [add],[subtract],[multiply] or [karatsuba].");
             System.exit(0);
         }
         this.xstring = handler.getFirstNumber();
@@ -75,15 +75,17 @@ public class Computation {
     private void compute() {
         String result = "";
         switch (operation) {
-            case "[addition]":
+            case "[add]":
                 result = addition(xstring, ystring);
                 handler.output(result);
+               handler.trimmer();
                 break;
-            case "[subtraction]":
+            case "[subtract]":
                 result = subtraction(xstring, ystring);
                 handler.output(result);
+                handler.trimmer();
                 break;
-            case "[multiplication]":
+            case "[multiply]":
                 if (!isxneg && !isyneg) {
                     result = multiplication(xstring, ystring);
                 }
@@ -99,6 +101,7 @@ public class Computation {
                 }
                 handler.outputSteps(singleSteps);
                 handler.output(result);
+                handler.trimmer();
                 break;
             case "[karatsuba]":
                 result = "";
@@ -116,6 +119,7 @@ public class Computation {
                 }
                 handler.outputSteps(singleSteps);
                 handler.output(result);
+                handler.trimmer();
                 break;
             default:
                 break;
@@ -210,13 +214,11 @@ public class Computation {
             if ((xstring.length()) > 0) {
                 a1 = (xstring.substring(xstring.length() - 1, xstring.length()));
                 a = Integer.valueOf(hexdecimal(a1));
-                System.out.println("a is" + a);
                 xstring = xstring.substring(0, xstring.length() - 1);
             } else a = 0;
             if ((ystring.length()) > 0) {
                 b1 = (ystring.substring(ystring.length() - 1, ystring.length()));
                 b = Integer.valueOf(hexdecimal(b1));
-                System.out.println("b is" + b);
                 ystring = ystring.substring(0, ystring.length() - 1);
             } else b = 0;
             if (a > (b + c)) {
@@ -231,8 +233,6 @@ public class Computation {
             }
 
             if (convert) {
-                System.out.println("f is " + f + "a is" + a + " b is:" + b);
-                System.out.println(decimalhex(String.valueOf(f)));
                 String num = (decimalhex(String.valueOf(f)));
                 r = num + r;
             } else {
@@ -297,19 +297,21 @@ public class Computation {
                 for (int t = 0; t < power2; t++) {
                     b = b + "0";
                 }
-                r2 = new String();
+                r2 = new String("0");
                 ystring2 = ystring2.substring(0, ystring2.length() - 1);
                 for (int i2 = 0; i2 < Integer.valueOf(a); i2++) {
-
-                    r2 = simpleAddition(b, r2);
+                    if(!b.equals("0")||!r2.equals("0"))
+                        r2 = simpleAddition(b, r2);
                 }
                 for (int t = 0; t < power; t++) {
                     r2 = r2 + "0";
                 }
-                r = simpleAddition(r, r2);
+                if(!r2.equals("0"))
+                    r = simpleAddition(r, r2);
             }
             ystring2 = ystring;
         }
+        singleSteps--;
         return r;
     }
 
@@ -335,7 +337,6 @@ public class Computation {
         String p1 = karatsuba(x1, y1);
         String p2 = karatsuba(x2, y2);
         String p3 = simplesubtraction(karatsuba(simpleAddition(x1, x2), simpleAddition(y1, y2)), simpleAddition(p1, p2));
-        System.out.println("xstring:" + xstring + "ystring:" + ystring + " p3:" + p3 + "karatsuba ofsmt" + (karatsuba(simpleAddition(x1, x2), simpleAddition(y1, y2))));
         for (int i = 0; i < length; i++) {
             p1 = p1 + "0";
         }
@@ -406,9 +407,15 @@ Method to convert from decimal to hexadecimal.
 
         return num;
     }
+    private boolean ifcontinue(){
+     return handler.isLinesEmpty();
+    }
 
     public static void main(String[] args) {
         Computation program = new Computation();
         program.compute();
+        if(program.ifcontinue()){
+            program.compute();
+        }
     }
 }

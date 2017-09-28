@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Assignment-Number-Theory.iml" filepath="$PROJECT_DIR$/Assignment-Number-Theory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/out/artifacts/Assignment_Number_Theory_jar/Assignment_Number_Theory_jar.iml" filepath="$PROJECT_DIR$/out/artifacts/Assignment_Number_Theory_jar/Assignment_Number_Theory_jar.iml" />
     </modules>
   </component>
 </project>
