@@ -7,16 +7,17 @@ public class Computation {
     private String xstring;
     private String ystring;
     //input-output handler
-    private IOHandler handler = new IOHandler();
+    // private IOHandler handler = new IOHandler();
     //integer to count the individual steps
-    private Integer singleSteps;
+    Integer singleSteps;
 
     private boolean isxneg = (false), isyneg = (false), isxmodlarger = (false);
 
-    private Computation() {
+    Computation(Integer radix, String operation, String xstring, String ystring) {
         this.singleSteps = 0;
         this.convert = false;
-        this.radix = handler.getRadix();
+        this.radix = radix;
+        //this.radix = handler.getRadix();
         if (this.radix > 10) convert = true;
         try {
             if (radix > 16 || radix < 2) {
@@ -27,8 +28,8 @@ public class Computation {
             //exit normally
             System.exit(0);
         }
-
-        this.operation = handler.getOperation();
+        this.operation = operation;
+        // this.operation = handler.getOperation();
         try {
             if (!(operation.equals("[add]")) && !(operation.equals("[subtract]")) &&
                     !(operation.equals("[multiply]")) && !operation.equals("[karatsuba]")) {
@@ -38,9 +39,10 @@ public class Computation {
             System.out.println("Operation must be [add],[subtract],[multiply] or [karatsuba].");
             System.exit(0);
         }
-        this.xstring = handler.getFirstNumber();
-        this.ystring = handler.getSecondNumber();
-
+        //this.xstring = handler.getFirstNumber();
+        //  this.ystring = handler.getSecondNumber();
+        this.xstring = xstring;
+        this.ystring = ystring;
 
         // check if the numbers are negative, in order to call the proper operations lates
         if (xstring.contains("-")) isxneg = (true);
@@ -72,18 +74,16 @@ public class Computation {
     Depending on the operation selected, a different case is chosen, inside of each case the operation is called. At the end of the method the handler
     is called in order to write the results inside the text file.
      */
-    private void compute() {
+    String compute() {
         String result = "";
         switch (operation) {
             case "[add]":
                 result = addition(xstring, ystring);
-                handler.output(result);
-               handler.trimmer();
+                // handler.output(result);
                 break;
             case "[subtract]":
                 result = subtraction(xstring, ystring);
-                handler.output(result);
-                handler.trimmer();
+                //handler.output(result);
                 break;
             case "[multiply]":
                 if (!isxneg && !isyneg) {
@@ -99,9 +99,8 @@ public class Computation {
                     System.out.println(multiplication(xstring.substring(1, xstring.length()), ystring.substring(1, ystring.length())));
                     result = multiplication(xstring.substring(1, xstring.length()), ystring.substring(1, ystring.length()));
                 }
-                handler.outputSteps(singleSteps);
-                handler.output(result);
-                handler.trimmer();
+                //  handler.outputSteps(singleSteps);
+                // handler.output(result);
                 break;
             case "[karatsuba]":
                 result = "";
@@ -117,13 +116,13 @@ public class Computation {
                 if (isxneg && isyneg) {
                     result = karatsuba(xstring.substring(1, xstring.length()), ystring.substring(1, ystring.length()));
                 }
-                handler.outputSteps(singleSteps);
-                handler.output(result);
-                handler.trimmer();
+                //handler.outputSteps(singleSteps);
+                // handler.output(result);
                 break;
             default:
                 break;
         }
+        return result;
     }
 
     /*
@@ -154,8 +153,8 @@ public class Computation {
             f = (a + b + c) % radix; //radix
             c = (a + b + c) / radix; //radix
             if (convert) {
-                System.out.println("f is " + f);
-                System.out.println(decimalhex(String.valueOf(f)));
+                // System.out.println("f is " + f);
+                //  System.out.println(decimalhex(String.valueOf(f)));
                 String num = (decimalhex(String.valueOf(f)));
                 result = num + result;
             } else {
@@ -243,10 +242,6 @@ public class Computation {
             else c = 0;
 
         }
-        if (r.substring(0, 1).equals("0")) {
-            r = r.substring(1, r.length());
-
-        }
 
         return r;
     }
@@ -289,29 +284,33 @@ public class Computation {
             power = i;
             a1 = xstring2.substring(xstring2.length() - 1, xstring2.length());
             a = hexdecimal(a1);
+            System.out.println("a" + a);
             xstring2 = xstring2.substring(0, xstring2.length() - 1);
             for (int p = 0; p < ystring.length(); p++) {
                 power2 = p;
                 b1 = ystring2.substring(ystring2.length() - 1, ystring2.length());
                 b = hexdecimal(b1);
+                System.out.println("b " + b);
                 for (int t = 0; t < power2; t++) {
                     b = b + "0";
                 }
                 r2 = new String("0");
                 ystring2 = ystring2.substring(0, ystring2.length() - 1);
+
                 for (int i2 = 0; i2 < Integer.valueOf(a); i2++) {
-                    if(!b.equals("0")||!r2.equals("0"))
+                    if (!b.equals("0") || !r2.equals("0"))
                         r2 = simpleAddition(b, r2);
                 }
                 for (int t = 0; t < power; t++) {
                     r2 = r2 + "0";
                 }
-                if(!r2.equals("0"))
+                if (!r2.equals("0"))
                     r = simpleAddition(r, r2);
             }
             ystring2 = ystring;
         }
         singleSteps--;
+
         return r;
     }
 
@@ -407,15 +406,15 @@ Method to convert from decimal to hexadecimal.
 
         return num;
     }
-    private boolean ifcontinue(){
-     return handler.isLinesEmpty();
-    }
+//    private boolean ifcontinue(){
+//     return handler.isLinesEmpty();
+//    }
 
     public static void main(String[] args) {
-        Computation program = new Computation();
-        program.compute();
-        if(program.ifcontinue()){
-            program.compute();
-        }
+//        Computation program = new Computation();
+//        program.compute();
+//        if(program.ifcontinue()){
+//            program.compute();
+//        }
     }
 }

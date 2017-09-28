@@ -6,23 +6,23 @@ import java.util.Iterator;
 
 public class IOHandler {
 
-    String path ;
-    ReadFile read ;
+    String path;
+    ReadFile read;
     ArrayList<String> lines = new ArrayList<>();
 
     public IOHandler() {
-        try{
+        try {
             //path of the file is C:\\Users\\"name of user"\\Desktop and the name of the file is example.txt
-         this.path="C:\\Users\\"+ System.getProperty("user.name") + "\\Desktop\\example.txt";
-        } catch(SecurityException exception){
+            this.path = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\example.txt";
+        } catch (SecurityException exception) {
             System.out.println(" There is a problem with accessing the user name of the computer.");
-          System.exit(0);
+            System.exit(0);
         }
-        this.read= new ReadFile(path);
+        this.read = new ReadFile(path);
         try {
             //Open the file
             this.lines = read.Open();
-           while(lines.get(0).contains("#")) lines.remove(0);
+            while (lines.get(0).contains("#")) lines.remove(0);
         } catch (IOException exception) {
             //catch exception of something is wrong with opening the file
             System.out.println(exception.getMessage());
@@ -35,18 +35,18 @@ public class IOHandler {
             //loop through all lines of the file
             if (string.contains("[radix]") && !string.contains("#")) {
                 // if there is [radix] word then the following number is the radix
-                   if(string.substring(8,9).equals("1")) {
-                       //if the radix contains two digits
-                       radix = Integer.parseInt(string.substring(8,10));
-                   } else{
-                       //if the radix contains one digit
-                       radix=Integer.parseInt(string.substring(8,9));
-                   }
-                   break;
+                if (string.substring(8, 9).equals("1")) {
+                    //if the radix contains two digits
+                    radix = Integer.parseInt(string.substring(8, 10));
+                } else {
+                    //if the radix contains one digit
+                    radix = Integer.parseInt(string.substring(8, 9));
+                }
+                break;
 
             }
         }
-        System.out.println("[radix] " +radix);
+        if(radix!=0) System.out.println("[radix]  " + radix);
         return radix;
     }
 
@@ -63,7 +63,7 @@ public class IOHandler {
                 break;
             }
         }
-        System.out.println("[operation]  " +operation);
+        System.out.println("[operation]  " + operation);
         return operation;
     }
 
@@ -71,14 +71,14 @@ public class IOHandler {
         String number = "";
         for (String string : lines) {
             //loop through all lines of the file
-            if (string.contains("[x]")  && !string.contains("#")) {
+            if (string.contains("[x]") && !string.contains("#")) {
                 //the first number is after [x] word
                 number = string.substring(4);
                 //System.out.println("xis " + number);
                 break;
             }
         }
-        System.out.println("[x] " +number);
+        System.out.println("[x] " + number);
         return number;
     }
 
@@ -93,21 +93,28 @@ public class IOHandler {
                 break;
             }
         }
-        System.out.println("[y] " +number);
+        System.out.println("[y] " + number);
         return number;
     }
 
-    public boolean isLinesEmpty(){
+    public boolean isLinesEmpty() {
         Iterator<String> iterator = lines.iterator();
-        return iterator.hasNext();
+        if (iterator.hasNext()) {
+            if (!(iterator.next().contains("[result]"))) {
+                return true;
+            }
+        }
+
+        return false;
     }
-    public void trimmer(){
+
+    public void trimmer() {
         lines.remove(0);
         Iterator<String> iterator = lines.iterator();
-        while(iterator.hasNext()){
-            String string=iterator.next();
+        while (iterator.hasNext()) {
+            String string = iterator.next();
             iterator.remove();
-            if(string.equals("")){
+            if (string.equals("")) {
                 break;
             }
 
@@ -121,9 +128,9 @@ public class IOHandler {
         try {
             writer = new FileWriter(path, true);
             bufferwriter = new BufferedWriter(writer);
-            System.out.println("[result] " + result);
+            System.out.println(result);
             //write the result from computation into new line
-            bufferwriter.write("\n [result] " + result);
+            bufferwriter.write("\n " + result);
 
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -141,7 +148,7 @@ public class IOHandler {
             }
 
         }
-        trimmer();
+
     }
 
     void outputSteps(Integer steps) {
@@ -177,13 +184,12 @@ public class IOHandler {
     }
 
 
-
     public static void main(String[] args) throws IOException {
         IOHandler handler = new IOHandler();
-       handler.trimmer();
-        for(String string:handler.lines){
-            System.out.println(string);
-        }
+//       handler.trimmer();
+//        for(String string:handler.lines){
+//            System.out.println(string);
+//        }
 
 
     }
